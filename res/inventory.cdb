@@ -1,0 +1,25 @@
+{
+	"sheets": [
+		{
+			"name": "inventory_enums",
+			"columns": [
+				{
+					"typeStr": "5:weapons,food,quest_item,trash",
+					"name": "loots"
+				}
+			],
+			"lines": [
+				{
+					"loots": 0,
+					"index": 0
+				}
+			],
+			"separators": [],
+			"props": {
+				"hasIndex": true
+			}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

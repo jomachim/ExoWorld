@@ -1,0 +1,133 @@
+{
+	"sheets": [
+		{
+			"name": "chest_loots",
+			"columns": [
+				{
+					"typeStr": "8",
+					"name": "weapons",
+					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "quest_items",
+					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "food",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"weapons": [
+						{
+							"name": "épée d'azure",
+							"attack": 10,
+							"defense": 0
+						},
+						{
+							"name": "bouclier de bois",
+							"attack": 1,
+							"defense": 9
+						}
+					],
+					"food": [
+						{
+							"name": "pomme",
+							"heal": 2
+						},
+						{
+							"name": "poisson",
+							"heal": 5
+						}
+					],
+					"quest_items": [
+						{
+							"name": "cléf de la porte d'entrée",
+							"description": "ouvre la porte d'entrée",
+							"quest_ref": 0
+						},
+						{
+							"name": "plan de la cave",
+							"description": "découvre les endroits cachés de la cave",
+							"quest_ref": 1
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "chest_loots@weapons",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "defense"
+				},
+				{
+					"typeStr": "3",
+					"name": "attack"
+				}
+			]
+		},
+		{
+			"name": "chest_loots@food",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "heal"
+				}
+			]
+		},
+		{
+			"name": "chest_loots@quest_items",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "description",
+					"display": null
+				},
+				{
+					"typeStr": "5:key,plan,tool",
+					"name": "quest_ref",
+					"display": null
+				}
+			]
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

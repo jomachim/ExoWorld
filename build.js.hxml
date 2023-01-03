@@ -1,0 +1,4 @@
+_base.hxml
+-dce std
+--no-traces
+-js bin/client.js
