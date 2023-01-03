@@ -2,6 +2,9 @@ redist/
 bin/
 dump/
 res/.tmp/
-
+server/
+crash.log
+iconMaker.exe
+.ico
 # VScode
 .vscode/settings.json
