@@ -59,8 +59,8 @@ class TitleScreen extends dn.Process {
 	var menuOptions:Array<Dynamic> = [
 		{option: "Start New Game", cb: App.ME.startGame},
 		{option: "Load saved Game", cb: () -> true},
-		{option: "Options", cb:()->true},
-		{option: "Reset",cb: App.ME.startTitleScreen},
+		{option: "Options", cb: () -> true},
+		{option: "Reset", cb: App.ME.startTitleScreen},
 		{option: "Quit", cb: App.ME.exit}
 	];
 	var bts:Array<Interactive> = [];
@@ -135,7 +135,7 @@ class TitleScreen extends dn.Process {
 
 		for (i in 0...menuOptions.length) {
 			var m = menuOptions[i];
-			m.index=i;
+			m.index = i;
 			var bt_txt = new Text(Assets.fontPixel);
 			var bt = new Interactive(128, 32);
 			bt_txt.scale(2);
@@ -149,15 +149,16 @@ class TitleScreen extends dn.Process {
 				m.cb();
 			}
 			bt.onOver = (e) -> {
-				//bt.filter = glow;
-				menuIndex=m.index;
-				tw.createMs(bt_txt.scaleX,2.5,TLinear,200);
-				tw.createMs(bt_txt.scaleY,2.5,TBackOut,200);
-				
+				cd.setS('select',0.5);
+				// bt.filter = glow;
+				menuIndex = m.index;
+				tw.createMs(bt_txt.scaleX, 2.5, TLinear, 200);
+				tw.createMs(bt_txt.scaleY, 2.5, TBackOut, 200);
 			}
 			bt.onOut = (e) -> {
-				tw.createMs(bt_txt.scaleX,2,TLinear,200);
-				tw.createMs(bt_txt.scaleY,2,TBackOut,200);
+				cd.setS('select',0.5);
+				tw.createMs(bt_txt.scaleX, 2, TLinear, 200);
+				tw.createMs(bt_txt.scaleY, 2, TBackOut, 200);
 			}
 			bts.push(bt);
 		}
@@ -319,18 +320,23 @@ class TitleScreen extends dn.Process {
 		for (e in Entity.ALL)
 			if (!e.destroyed)
 				e.fixedUpdate();
-
-		for (i in 0...bts.length) {
-			if (i == menuIndex) {
-				bts[i].filter = glow;
-			} else {
-				bts[i].filter = nothing;
+		if (cd.has("select")) {
+			for (i in 0...bts.length) {
+				if (i == menuIndex) {
+					bts[i].filter = glow;
+					tw.createMs(bts[i].getChildAt(0).scaleX,2.5,TLinear,200);
+					tw.createMs(bts[i].getChildAt(0).scaleY,2.5,TBackOut,200);
+				} else {
+					bts[i].filter = nothing;
+					tw.createMs(bts[i].getChildAt(0).scaleX, 2, TLinear, 200);
+					tw.createMs(bts[i].getChildAt(0).scaleY, 2, TBackOut, 200);
+				}
 			}
 		}
 
 		if (ca.isPressed(Action) || ca.isPressed(Pause)) {
-			//trace('starting game ?');
-			//App.ME.startGame();
+			// trace('starting game ?');
+			// App.ME.startGame();
 			menuOptions[menuIndex].cb();
 		}
 	}
@@ -341,7 +347,7 @@ class TitleScreen extends dn.Process {
 		if (ca.isPressed(MoveDown) && !cd.has('select')) {
 			cd.setS('select', 0.5);
 			menuIndex++;
-			if (menuIndex > menuOptions.length-1) {
+			if (menuIndex > menuOptions.length - 1) {
 				menuIndex = 0;
 			}
 		}
