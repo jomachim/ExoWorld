@@ -470,7 +470,7 @@ class Fx extends GameProcess {
 			} else {
 				p = allocMain_add(D.tiles.fxBigElectricity, x, y);
 			}
-			p.scale=rnd(0.1,2);
+			p.scale=0.5;//rnd(0.1,2);
 			//p.scaleX=rnd(1,4);
 			p.lifeS = 0.15;
 			p.rotation = irnd(0, 4)*90/180*Math.PI;
