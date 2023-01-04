@@ -40,9 +40,9 @@ class SamplePlayer extends Entity {
 	public var money = 0;
 	public var maxJumps = 1;
 	public var jumps = 0;
-	public var canSwim:Bool=false;
-	public var canFire:Bool=false;
-	public var canQuake:Bool=false;
+	public var canSwim:Bool = false;
+	public var canFire:Bool = false;
+	public var canQuake:Bool = false;
 	public var g:h2d.Graphics;
 	public var inventory:Array<Dynamic> = [];
 	public var gravity:Float = 0.05;
@@ -74,7 +74,7 @@ class SamplePlayer extends Entity {
 	var ladding(get, never):Bool;
 
 	inline function get_ladding()
-		return (level.hasLadder(cx, cy) );//&& (ca.isDown(MoveUp) || ca.isDown(MoveDown))
+		return (level.hasLadder(cx, cy)); // && (ca.isDown(MoveUp) || ca.isDown(MoveDown))
 
 	var landing(get, never):Bool;
 
@@ -128,7 +128,8 @@ class SamplePlayer extends Entity {
 			// && (cd.has("recentlyOnGround") || onLedge)
 			trace(ret);
 			return ret; */
-		return (onGround && !cd.has("recentlyOnElevator"))
+			if(level.hasOneWay(cx, cy + 1)) return false;
+		return (onGround && !cd.has("recentlyOnElevator") && !onLedge)
 			&& ((!level.hasCollision(cx + 1, cy + 1) && xr > 0.7) || (!level.hasCollision(cx - 1, cy + 1) && xr < 0.3));
 	}
 
@@ -345,9 +346,9 @@ class SamplePlayer extends Entity {
 			cd.setMs("slideDown", 100);
 		}
 		// breakable breaking
-		if (onBreakable && cd.has("slideDown") && canQuake==true) {
-			level.breakables.remove(Breaks,cx,cy+1);
-			camera.bump(12,18);
+		if (onBreakable && cd.has("slideDown") && canQuake == true) {
+			level.breakables.remove(Breaks, cx, cy + 1);
+			camera.bump(12, 18);
 		}
 		if (landing && !cd.has("slideDown")) {
 			dy = 0;
@@ -399,27 +400,27 @@ class SamplePlayer extends Entity {
 		}
 
 		// Ceiling collision
-		/*if(level.hasCollision(cx,cy-1)){
-			if(crotched && yr<0.2)
-				yr = 0.2;
-				dy=0;
-				onPosManuallyChangedY();
-			if(!crotched && yr<0.5)
-				yr=0.5;
-				dy=0;
-		}*/
-		if (yr < 0.8 && level.hasCollision(cx, cy - 1)) {
-			if (crotched) {
-				yr = 0.8;
-				dy = 0;
-				onPosManuallyChangedY();
-			}
-		}
-		if (yr < 0.2 && level.hasCollision(cx, cy - 1)) {
+		if (level.hasCollision(cx, cy - 1) && crotched && yr < 0.2) {
+			yr = 0.2;
+			dy = 0;
+			onPosManuallyChangedY();
+		}else if(level.hasCollision(cx, cy - 2) && !crotched && yr < 0.2){
 			yr = 0.2;
 			dy = 0;
 			onPosManuallyChangedY();
 		}
+		/*if (yr < 0.8 && level.hasCollision(cx, cy - 1)) {
+				if (crotched) {
+					yr = 0.8;
+					dy = 0;
+					onPosManuallyChangedY();
+				}
+			}
+			if (yr < 0.2 && level.hasCollision(cx, cy - 1)) {
+				yr = 0.2;
+				dy = 0;
+				onPosManuallyChangedY();
+		}*/
 	}
 
 	/**
@@ -636,7 +637,8 @@ class SamplePlayer extends Entity {
 			cd.setMs("attacking", 400);
 			spr.anim.chain(anims.attack, 1).setStateAnimSpeed("attack", 2.0);
 			// hud.notify("Fighting !");
-			if(canFire==true) fx.spyraleRotation(centerX, centerY, 0xffee55, dir);
+			if (canFire == true)
+				fx.spyraleRotation(centerX, centerY, 0xffee55, dir);
 		}
 
 		if (ca.isPressed(Action)) {
@@ -644,7 +646,7 @@ class SamplePlayer extends Entity {
 		}
 
 		// fire
-		if (ca.isPressed(SuperAttack) && cd.getMs('recentlyFire') <= 0.1 && canFire==true) {
+		if (ca.isPressed(SuperAttack) && cd.getMs('recentlyFire') <= 0.1 && canFire == true) {
 			cd.setMs("recentlyFire", 0.25);
 			cd.setS("recentMove", 0.2);
 			game.stopFrame();
@@ -782,11 +784,11 @@ class SamplePlayer extends Entity {
 		game.disp.normalMap.scrollDiscrete(1, -2);
 
 		// Gravity
-		if(ladding){
-			if(ca.isDown(MoveUp)){
-				dy-=0.25;
-			}else if(ca.isDown(MoveDown)){
-				dy+=0.25;
+		if (ladding) {
+			if (ca.isDown(MoveUp)) {
+				dy -= 0.25;
+			} else if (ca.isDown(MoveDown)) {
+				dy += 0.25;
 			}
 		}
 		if (!onGround && !cd.has("recentlyOnElevator") && !ladding)
