@@ -144,6 +144,8 @@ class Fx extends GameProcess {
 	inline function collides(p:HParticle, offX = 0., offY = 0.) {
 		if(level.hasBreakable(Std.int((p.x + offX) / Const.GRID), Std.int((p.y + offY) / Const.GRID))){
 			level.breakables.remove(Breaks,Std.int((p.x + offX) / Const.GRID), Std.int((p.y + offY) / Const.GRID));
+			new sample.Boom(null,p.x,p.y);
+			p.kill();
 			return true;
 		}
 		return level.hasCollision(Std.int((p.x + offX) / Const.GRID), Std.int((p.y + offY) / Const.GRID));
@@ -248,13 +250,15 @@ class Fx extends GameProcess {
 		// p.fadeIn(1.0, 0.1);
 		p.dx = 2.5 * dr;
 		p.scale = 0.25;
+		
 		tw.createS(p.a, 0, TLinear, 5.5).update(() -> {
+			tail(x,y);
 			if (collides(p)) {
-				p.remove();
+				p.kill();
 			};
 			p.rotation += 0.01;
 			// trace("rotation");
-		}).end(p.remove);
+		}).end(p.kill);
 		// game.tw.createS(,p.rotation*8,TLinear,5.5).end(p.remove);
 	}
 
@@ -278,7 +282,7 @@ class Fx extends GameProcess {
 			p.frict = 0; // friction applied to velocities
 			p.gy = 0; // gravity Y (added on each frame)
 			p.lifeS = 1.5; // life time in seconds
-			tw.createS(p.a, 0, TLinear, 1.5).end(p.remove);
+			tw.createS(p.a, 0, TLinear, 1.5).end(p.kill);
 			p.killOnLifeOut = true;
 		}
 	}
@@ -295,7 +299,7 @@ class Fx extends GameProcess {
 			p.frict = 0; // friction applied to velocities
 			p.gy = 0; // gravity Y (added on each frame)
 			p.lifeS = 1.5; // life time in seconds
-			tw.createS(p.a, 0, TLinear, 1.5).end(p.remove);
+			tw.createS(p.a, 0, TLinear, 1.5).end(p.kill);
 			p.killOnLifeOut = true;
 		}
 	}
@@ -388,9 +392,9 @@ class Fx extends GameProcess {
 			tw.createS(p.a, 0, TLinear, 3).update(function() {
 				if (p.y < maxY) {
 					// trace("adios amigos, so looong");
-					p.remove();
+					p.kill();
 				}
-			}).end(p.remove);
+			}).end(p.kill);
 		}
 	}
 
