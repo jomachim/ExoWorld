@@ -1,11 +1,13 @@
 FixedArray limit reached (512)
-BUILD: 2022-12-29-06-35-35--hldx-64
+BUILD: 2023-01-04-21-43-18--hlsdl-64
 EXCEPTION:
 
 Called from dn.Tweenie.create_ (dn/Tweenie.hx line 423)
-Called from sample.SamplePlayer.preUpdate (sample/SamplePlayer.hx line 414)
-Called from Game.preUpdate (Game.hx line 276)
-Called from dn.$Process.updateAll (dn/Process.hx line 663)
+Called from sample.WaterPond.fixedUpdate (sample/WaterPond.hx line 81)
+Called from Game.fixedUpdate (Game.hx line 334)
+Called from dn.$Process._doFixedUpdate (dn/Process.hx line 550)
+Called from dn.$Process._doFixedUpdate (dn/Process.hx line 559)
+Called from dn.$Process.updateAll (dn/Process.hx line 669)
 Called from Boot.update (Boot.hx line 62)
 Called from Boot.update (Boot.hx line 58)
 CALL:

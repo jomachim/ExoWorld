@@ -84,7 +84,7 @@ class SamplePlayer extends Entity {
 	public var crotched(get, never):Bool;
 
 	inline function get_crotched()
-		return ca.isDown(MoveDown) || stuck;
+		return ca.isDown(MoveDown) || stuck || level.hasCollision(cx, cy - 1);
 
 	var stuck(get, never):Bool;
 
