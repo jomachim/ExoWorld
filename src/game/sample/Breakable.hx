@@ -48,12 +48,25 @@ class Breakable extends Entity {
 	}
 
 	override function fixedUpdate() {
+		
+		if(game.gameStats.has(iid+"broken") && level.breakables.has(Breaks, cx, cy)){
+			//dispose();
+			level.breakables.remove(Breaks, cx, cy);
+			spr.set('empty');
+			done = true;
+			dispose();
+			return;
+		}
 		if (level.breakables.has(Breaks, cx, cy)) {
 			if (!cd.has('blinc')){
 				cd.setMs('blinc',2500);
 				blink(0x4E4E0E);}
 			spr.set(D.tiles.breakable);
 		} else {
+			if(!game.gameStats.has(iid+"broken")){
+				var a= new Achievement(iid+"broken",iid+"broken",()->!level.breakables.has(Breaks, cx, cy),()->trace("cassé!"));
+				game.gameStats.registerState(a);
+			}
 			booms.play().volume=1;
 			spr.set('empty');
 			done = true;

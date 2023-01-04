@@ -340,6 +340,11 @@ class SampleGame extends Game {
 			manager = hxd.snd.Manager.get();
 			manager.masterVolume = 0.25;
 			manager.masterChannelGroup.addEffect(new hxd.snd.effect.Pitch(1.0));
+			var spa=new hxd.snd.effect.Spatialization();
+			spa.fadeDistance=10;
+			spa.position=new h3d.Vector(-1,0,2,1);
+			spa.direction=new h3d.Vector(0.5,0.5,2);
+			manager.masterChannelGroup.addEffect(spa);
 			manager.masterSoundGroup.maxAudible = 4;
 
 			// If we support mp3 we have our sound

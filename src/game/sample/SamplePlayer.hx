@@ -40,6 +40,9 @@ class SamplePlayer extends Entity {
 	public var money = 0;
 	public var maxJumps = 1;
 	public var jumps = 0;
+	public var canSwim:Bool=false;
+	public var canFire:Bool=false;
+	public var canQuake:Bool=false;
 	public var g:h2d.Graphics;
 	public var inventory:Array<Dynamic> = [];
 	public var gravity:Float = 0.05;
@@ -71,7 +74,7 @@ class SamplePlayer extends Entity {
 	var ladding(get, never):Bool;
 
 	inline function get_ladding()
-		return (level.hasLadder(cx, cy - 1) && (ca.isDown(MoveUp) || ca.isDown(MoveDown)));
+		return (level.hasLadder(cx, cy) );//&& (ca.isDown(MoveUp) || ca.isDown(MoveDown))
 
 	var landing(get, never):Bool;
 
@@ -342,9 +345,9 @@ class SamplePlayer extends Entity {
 			cd.setMs("slideDown", 100);
 		}
 		// breakable breaking
-		if (onBreakable && cd.has("slideDown")) {
+		if (onBreakable && cd.has("slideDown") && canQuake==true) {
 			level.breakables.remove(Breaks,cx,cy+1);
-			camera.bump(2,8);
+			camera.bump(12,18);
 		}
 		if (landing && !cd.has("slideDown")) {
 			dy = 0;
@@ -353,7 +356,7 @@ class SamplePlayer extends Entity {
 
 		// Land on ground
 		if (yr > 1 && level.hasCollision(cx, cy + 1)) {
-			setSquashY(0.5);
+			setSquashY(0.8);
 			// camera.bump(0,dy*dy*20);
 			if (isAlive() && !cd.has("toohigh") && !cd.has("deathScreen")) {
 				lastGroundedPos.cx = cx;
@@ -633,7 +636,7 @@ class SamplePlayer extends Entity {
 			cd.setMs("attacking", 400);
 			spr.anim.chain(anims.attack, 1).setStateAnimSpeed("attack", 2.0);
 			// hud.notify("Fighting !");
-			fx.spyraleRotation(centerX, centerY, 0xffee55, dir);
+			if(canFire==true) fx.spyraleRotation(centerX, centerY, 0xffee55, dir);
 		}
 
 		if (ca.isPressed(Action)) {
@@ -641,7 +644,7 @@ class SamplePlayer extends Entity {
 		}
 
 		// fire
-		if (ca.isPressed(SuperAttack) && cd.getMs('recentlyFire') <= 0.1) {
+		if (ca.isPressed(SuperAttack) && cd.getMs('recentlyFire') <= 0.1 && canFire==true) {
 			cd.setMs("recentlyFire", 0.25);
 			cd.setS("recentMove", 0.2);
 			game.stopFrame();
@@ -667,7 +670,7 @@ class SamplePlayer extends Entity {
 		if (ca.isPressed(MoveDown))
 			setSquashY(0.8);
 		if (ca.isPressed(Jump))
-			setSquashX(0.8);
+			setSquashX(0.9);
 
 		// Walk
 		if (ca.getAnalogDist2(MoveLeft, MoveRight) > 0) {
@@ -779,6 +782,13 @@ class SamplePlayer extends Entity {
 		game.disp.normalMap.scrollDiscrete(1, -2);
 
 		// Gravity
+		if(ladding){
+			if(ca.isDown(MoveUp)){
+				dy-=0.25;
+			}else if(ca.isDown(MoveDown)){
+				dy+=0.25;
+			}
+		}
 		if (!onGround && !cd.has("recentlyOnElevator") && !ladding)
 			dy += gravity * 1.5; // 0.05
 		if (dy > 1.5)

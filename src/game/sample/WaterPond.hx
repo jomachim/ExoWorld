@@ -46,11 +46,12 @@ class WaterPond extends Entity {
 	override function fixedUpdate() {
 		if (collides) {
 			game.player.cd.setMs('wasRecentlyInWater', 100);
-			game.player.dx *= 0.5;
-			game.player.dy *= 0.9;
+			game.player.dx *= game.player.canSwim?0.9:0.5;
+			game.player.dy *= game.player.canSwim?0.99:0.9;
 			if (game.player.dy > 0) {
-				game.player.dy *= 0.9;
+				game.player.dy *= game.player.canSwim?0.99:0.9;
 			}
+			if(game.player.canSwim==true && game.player.jumps==0){game.player.jumps=1;}
 		}else{
 			countDown=10;
 		}

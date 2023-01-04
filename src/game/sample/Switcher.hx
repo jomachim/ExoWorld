@@ -36,6 +36,8 @@ class Switcher extends Entity {
 			wrongRessource = hxd.Res.sounds.wrong;
 			doorResource = hxd.Res.sounds.sfx_door;
 		}
+		//var soundSource = new hxd.snd.effect.Spatialization();
+		//soundSource.load(goodRessource);
 		super(ent.cx, ent.cy);
 		setPosCase(ent.cx, ent.cy);
 		// Placeholder display
@@ -71,7 +73,8 @@ class Switcher extends Entity {
 			cd.setS("canard", 5.0);
 		};
 
-		if (distCase(game.player) <= 2 && game.player.cd.has('recentlyPressedAction')) {
+		if (distCase(game.player) <= 2 && game.player.cd.has('recentlyPressedAction') && !cd.has('molo')) {
+			cd.setS('molo',0.2);
 			for (ent in Entity.ALL) {
 				if (ent.iid == data.f_Entity_ref.entityIid && iid != ent.iid) {
 					game.delayer.addS('waiting_'+ent.iid, () -> {
@@ -79,11 +82,11 @@ class Switcher extends Entity {
 						ent.activated = true;
 						ent.locked=false;
 						doorResource.play().volume = 1.0;
-						game.camera.trackEntity(game.player,false,0.5);
-						game.camera.centerOnTarget();
+						//game.camera.trackEntity(game.player,false,0.5);
+						//game.camera.centerOnTarget();
 					}, 1);
-					game.camera.trackEntity(ent,false,0.5);
-					game.camera.centerOnTarget();					
+					//game.camera.trackEntity(ent,false,0.5);
+					//game.camera.centerOnTarget();					
 					goodRessource.play().volume = 0.25;
 					
 				}

@@ -69,6 +69,7 @@ class SampleChest extends Entity {
 						locked=false;
 						game.player.upgradeResource.play(false,1.0);
 						trace('requiered item unlocked the chest');
+						game.player.inventory.remove(data.f_requiered_item);
 					}
 					if(locked==true){
 						fx.markerText(cx,cy-2,"LOCKED");
@@ -82,6 +83,18 @@ class SampleChest extends Entity {
 							}
 							if(loot==Air_Rune){
 								game.player.maxJumps++;
+								game.player.giftResource.play(false).volume=1;
+							}
+							if(loot==Fire_Rune){
+								game.player.canFire=true;
+								game.player.giftResource.play(false).volume=1;
+							}
+							if(loot==Earth_Rune){
+								game.player.canQuake=true;
+								game.player.giftResource.play(false).volume=1;
+							}
+							if(loot==Water_Rune){
+								game.player.canSwim=true;
 								game.player.giftResource.play(false).volume=1;
 							}
 							if(loot==Heart){
