@@ -211,7 +211,7 @@ class Fx extends GameProcess {
 			// p.moveAwayFrom(x,y, rnd(0.1,2)); // move away from source
 			p.frict = rnd(0.85, 0.99); // friction applied to velocities
 			p.gy = -0.01; // gravity Y (added on each frame)
-			p.lifeS = 4; // life time in seconds
+			p.lifeS = 2; // life time in seconds
 			// game.tw.createS(p.a,0,TLinear,2).end(p.remove);
 		}
 	}
@@ -226,15 +226,15 @@ class Fx extends GameProcess {
 			p.bounceMul = 0.25;
 			p.scaleMul = 0.95;
 			// p.moveAwayFrom(x,y-32, rnd(1,3));
-			p.scale = rnd(0.5, 4);
+			p.scale = rnd(0.5, 2);
 			p.colorAnimS(color, 0xffffff, rnd(0.6, 3)); // fade particle color from given color to some purple
 			p.moveAwayFrom(x, y, rnd(-4, 4, true)); // move away from source
 			p.frict = rnd(0.80, 0.99); // friction applied to velocities
 			p.gy = 0.022 + rnd(0.012, 0.052); // gravity Y (added on each frame)
-			p.lifeS = rnd(2, 4); // life time in seconds
-			tw.createS(p.a, 0, TLinear, 1).update(() -> if (collides(p)) {
+			p.lifeS = rnd(1, 2); // life time in seconds
+			/*tw.createS(p.a, 0, TLinear, 1).update(() -> if (collides(p)) {
 				p.dy *= -1;
-			}).end(p.remove);
+			}).end(p.remove);*/
 		}
 	}
 
@@ -251,7 +251,7 @@ class Fx extends GameProcess {
 		p.scale = 0.25;
 		
 		tw.createS(p.a, 0, TLinear, 5.5).update(() -> {
-			tail(x,y);
+			//tail(x,y);
 			if (collides(p)) {
 				p.kill();
 			};

@@ -87,7 +87,7 @@ class Switcher extends Entity {
 					}, 1);
 					//game.camera.trackEntity(ent,false,0.5);
 					//game.camera.centerOnTarget();					
-					goodRessource.play().volume = 0.25;
+					goodRessource.play().volume = 0.05;
 					
 				}
 			}

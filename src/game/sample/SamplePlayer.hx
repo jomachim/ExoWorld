@@ -84,7 +84,7 @@ class SamplePlayer extends Entity {
 	public var crotched(get, never):Bool;
 
 	inline function get_crotched()
-		return ca.isDown(MoveDown) || stuck || level.hasCollision(cx, cy - 1);
+		return ca.isDown(MoveDown) || stuck || level.hasCollision(cx, cy - 2);
 
 	var stuck(get, never):Bool;
 
@@ -400,7 +400,7 @@ class SamplePlayer extends Entity {
 		}
 
 		// Ceiling collision
-		if (level.hasCollision(cx, cy - 1) && crotched && yr < 0.2) {
+		/*if (level.hasCollision(cx, cy - 1) && crotched && yr < 0.2) {
 			yr = 0.2;
 			dy = 0;
 			onPosManuallyChangedY();
@@ -408,8 +408,8 @@ class SamplePlayer extends Entity {
 			yr = 0.2;
 			dy = 0;
 			onPosManuallyChangedY();
-		}
-		/*if (yr < 0.8 && level.hasCollision(cx, cy - 1)) {
+		}*/
+		if (yr < 0.8 && level.hasCollision(cx, cy - 1)) {
 				if (crotched) {
 					yr = 0.8;
 					dy = 0;
@@ -420,7 +420,7 @@ class SamplePlayer extends Entity {
 				yr = 0.2;
 				dy = 0;
 				onPosManuallyChangedY();
-		}*/
+		}
 	}
 
 	/**

@@ -67,6 +67,7 @@ class Breakable extends Entity {
 				var a= new Achievement(iid+"broken",iid+"broken",()->!level.breakables.has(Breaks, cx, cy),()->trace("cassé!"));
 				game.gameStats.registerState(a);
 			}
+			game.addSlowMo("broomk",1,0.01);
 			booms.play().volume=1;
 			spr.set('empty');
 			done = true;

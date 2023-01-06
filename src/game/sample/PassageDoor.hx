@@ -48,19 +48,19 @@ class PassageDoor extends Entity {
 				locked=false;
 				activated=true;
 			}
-			if(p.right>=left){
+			if(p.right+8>=left && p.dx>0){
 				p.xr=0.4;
 				p.cx=cx;
 				p.dx=0;
-			}else if(p.left<=right){
-				p.xr=0.6;
-				p.cx=cx+1;
+			}else if(p.left-16<=right && p.dx<0){
+				p.xr=1.6;
+				p.cx=cx;
 				p.dx=0;
 			}
 		}
 		if(locked==true || activated==false){
 			spr.set(D.tiles.closedDoor);
-		}else{
+		}else if(locked==false || activated==true){
 			spr.set(D.tiles.openedDoor);
 		}
 	}
