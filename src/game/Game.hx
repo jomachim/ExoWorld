@@ -74,6 +74,7 @@ class Game extends dn.Process {
 	public var id_bmp:h2d.Bitmap;
 	public var bmp:h2d.Bitmap;
 	public var player:Null<SamplePlayer>;
+	public var chrono:Chrono;
 
 	/** displacement filer **/
 	public var disp:h2d.filter.Displacement;
@@ -322,7 +323,7 @@ class Game extends dn.Process {
 			for (i in 0...10)
 				fx.smogg(rnd(0, w()), h());
 		}
-		if(meteo.state == Snowing){
+		if (meteo.state == Snowing) {
 			var rain = irnd(0, 50);
 			for (i in 0...rain)
 				fx.snow(rnd(0, w()), -16, 0x11558f, i % 2 == 0, rnd(0.01, 0.5));
@@ -461,76 +462,100 @@ class Game extends dn.Process {
 			// fog vanishing
 			// scroller.getChildAtLayer()
 			if (level.marks != null) {
-				for (tx in -3...3) {
-					for (ty in -3...3) {
-						level.marks.set(Visited, player.cx + tx, player.cy + ty);
+				for (tx in -5...5) {
+					for (ty in -5...5) {
+						try {
+							level.marks.set(Visited, player.cx + tx, player.cy + ty);
+						} catch (e:haxe.Exception) {
+							trace(e.stack);
+						}
 					}
 				}
 			}
+
+			/*if(gameStats.has(level.data.identifier+'_visited')){
+				gameStats.get(level.data.identifier+'_visited').marks=level.marks;
+			}*/
 			// level.marks.set(Visited, player.cx, player.cy);
 			/*if (markach == null) {
-				markach = new Achievement("fogMarks_" + level.data.identifier, "saved", () -> true, () -> true, level.marks);
-			}else if (markach != null) {
-				markach = new Achievement("fogMarks_" + level.data.identifier, "saved", () -> true, () -> true, level.marks);
+					markach = new Achievement("fogMarks_" + level.data.identifier, "saved", () -> true, () -> true, level.marks);
+				}else if (markach != null) {
+					markach = new Achievement("fogMarks_" + level.data.identifier, "saved", () -> true, () -> true, level.marks);
 
-				gameStats.registerState(markach);
-				gameStats.updateAll();
+					gameStats.registerState(markach);
+					gameStats.updateAll();
 			}*/
+
 			if (warFobj == null) {
 				warFobj = new h2d.Object();
 			}
 			warFobj.removeChildren();
-			var tl =D.tiles.vide;
-			for (cx in -3...level.cWid+3) {
-				for (cy in -3...level.cHei+3) {
-					
-					if (!level.marks.has(Visited, cx, cy)) {
-						tl = D.tiles.fogC;
-						if (level.marks.has(Visited, cx - 1, cy)) {
-							tl = D.tiles.fogW;
-						} else if (level.marks.has(Visited, cx + 1, cy)) {
-							tl = D.tiles.fogE;
-						} else if (level.marks.has(Visited, cx, cy + 1)) {
-							tl = D.tiles.fogS;
-						} else if (level.marks.has(Visited, cx, cy - 1)) {
-							tl = D.tiles.fogN;
-						} else if (level.marks.has(Visited, cx + 1, cy + 1)) {
-							tl = D.tiles.fogSE;
-						} else if (level.marks.has(Visited, cx - 1, cy - 1)) {
-							tl = D.tiles.fogNW;
-						} else if (level.marks.has(Visited, cx + 1, cy - 1)) {
-							tl = D.tiles.fogNE;
-						} else if (level.marks.has(Visited, cx - 1, cy + 1)) {
-							tl = D.tiles.fogSW;
-						} else if (level.marks.has(Visited, cx + 1, cy - 1) && level.marks.has(Visited, cx, cy - 1)) {
-							tl = D.tiles.fogNE1;
+			var tl = D.tiles.vide;
+			if (level.marks != null) {
+				for (cx in -5...level.cWid + 5) {
+					for (cy in -5...level.cHei + 5) {
+						if (!level.marks.has(Visited, cx, cy)) {
+							tl = D.tiles.fogC;
+							if (level.marks.has(Visited, cx - 1, cy)) {
+								tl = D.tiles.fogW;
+							} else if (level.marks.has(Visited, cx + 1, cy)) {
+								tl = D.tiles.fogE;
+							} else if (level.marks.has(Visited, cx, cy + 1)) {
+								tl = D.tiles.fogS;
+							} else if (level.marks.has(Visited, cx, cy - 1)) {
+								tl = D.tiles.fogN;
+							} else if (level.marks.has(Visited, cx + 1, cy + 1)) {
+								tl = D.tiles.fogSE;
+							} else if (level.marks.has(Visited, cx - 1, cy - 1)) {
+								tl = D.tiles.fogNW;
+							} else if (level.marks.has(Visited, cx + 1, cy - 1)) {
+								tl = D.tiles.fogNE;
+							} else if (level.marks.has(Visited, cx - 1, cy + 1)) {
+								tl = D.tiles.fogSW;
+							} else if (level.marks.has(Visited, cx + 1, cy - 1) && level.marks.has(Visited, cx, cy - 1)) {
+								tl = D.tiles.fogNE1;
+							}
+						} else {
+							tl = D.tiles.vide;
+							if (cx == 0) {
+								tl = D.tiles.fogE;
+							}
+							if (cx == level.cWid - 1) {
+								tl = D.tiles.fogW;
+							}
+							if (cy == 0) {
+								tl = D.tiles.fogS;
+							}
+							if (cy == level.cHei - 1) {
+								tl = D.tiles.fogN;
+							}
+
+							if (cx == 0 && cy == 0) {
+								tl = D.tiles.fogSE;
+							}
+							if (cx == level.cWid - 1 && cy == level.cHei - 1) {
+								tl = D.tiles.fogNW;
+							}
+							if (cx == 0 && cy == level.cHei - 1) {
+								tl = D.tiles.fogNE;
+							}
+							if (cx == level.cWid - 1 && cy == 0) {
+								tl = D.tiles.fogSW;
+							}
 						}
-					
-						
-					}else{
-						tl =D.tiles.vide;
-						if(cx==0){tl=D.tiles.fogE;}
-						if(cx==level.cWid-1){tl=D.tiles.fogW;}
-						if(cy==0){tl=D.tiles.fogS;}
-						if(cy==level.cHei-1){tl=D.tiles.fogN;}
-
-						if(cx==0 && cy==0){tl=D.tiles.fogSE;}
-						if(cx==level.cWid-1 && cy==level.cHei-1){tl=D.tiles.fogNW;}
-						if(cx==0 && cy==level.cHei-1){tl=D.tiles.fogNE;}
-						if(cx==level.cWid-1 && cy==0){tl=D.tiles.fogSW;}
-
+						if (cx <= -1 || cx >= level.cWid || cy <= -1 || cy >= level.cHei) {
+							tl = D.tiles.fogC;
+						}
+						var fogTile = new Bitmap(Assets.tiles.getTile(tl));
+						fogTile.x = cx * 16;
+						fogTile.y = cy * 16;
+						warFobj.addChild(fogTile);
 					}
-					if(cx<=-1 || cx>=level.cWid || cy<=-1 || cy>=level.cHei){
-						tl = D.tiles.fogC;
-					}
-					var fogTile = new Bitmap(Assets.tiles.getTile(tl));
-					fogTile.x = cx * 16;
-					fogTile.y = cy * 16;
-					warFobj.addChild(fogTile);
 				}
 			}
-			if(!scroller.contains(warFobj)){
-				scroller.add(warFobj);}
+			if (!scroller.contains(warFobj)) {
+				scroller.add(warFobj);
+			}
 
 			// mask
 			var containerMask:Object = new h2d.Mask(64, 64, root);
@@ -639,6 +664,9 @@ class Game extends dn.Process {
 			// Restart whole game
 			if (ca.isPressed(Restart))
 				App.ME.startGame();
+
+			if(ca.isPressed(MenuOpen))
+				trace('open menu');
 		}
 	}
 }

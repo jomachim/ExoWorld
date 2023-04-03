@@ -58,7 +58,7 @@ class TitleScreen extends dn.Process {
 
 	var menuOptions:Array<Dynamic> = [
 		{option: "Start New Game", cb: App.ME.startGame},
-		{option: "Load saved Game", cb: () -> true},
+		{option: "Load saved Game", cb: App.ME.startSavedScreen},
 		{option: "Options", cb: () -> true},
 		{option: "Reset", cb: App.ME.startTitleScreen},
 		{option: "Quit", cb: App.ME.exit}

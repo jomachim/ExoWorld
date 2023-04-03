@@ -83,8 +83,18 @@ class SamplePlayer extends Entity {
 
 	public var crotched(get, never):Bool;
 
-	inline function get_crotched()
-		return ca.isDown(MoveDown) || stuck || level.hasCollision(cx, cy - 2);
+	inline function get_crotched(){
+		if(ca.isDown(MoveDown))
+			return true;
+		if(stuck)
+			return true;
+		if(level.hasCollision(cx,cy-1)){
+			return true;
+		}
+		if(level.hasCollision(cx, cy - 2) && yr<=0.5)
+			return true;
+		return false;		
+	}
 
 	var stuck(get, never):Bool;
 
@@ -707,6 +717,15 @@ class SamplePlayer extends Entity {
 		/*shadeNorm.mp.x = spr.x;
 			shadeNorm.mp.y = spr.y; */
 
+
+			if (onBreakable && cd.has("slideDown") && canQuake == true) {
+				level.breakables.remove(Breaks, cx, cy + 1);
+				camera.bump(12, 18);
+				cd.setS('bumping',1);
+			}
+			if(cd.has('bumping')){
+				camera.bump(12, 18);
+			}
 		// elevator tracker;
 
 		if (cd.has("recentlyOnElevator") && !cd.has("startJumping") && puppetMaster != null) {

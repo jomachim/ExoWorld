@@ -12,6 +12,11 @@ enum abstract GameAction(Int) to Int {
 	var Restart;
 
 	var MenuCancel;
+	var MenuOpen;
+	var MenuUp;
+	var MenuDown;
+	var MenuOk;
+	var MenuClose;
 	var Pause;
 
 	var ToggleDebugDrone;

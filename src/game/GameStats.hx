@@ -68,13 +68,15 @@ class Achievement {
     public var success:()->Bool;
     public var cb:()->Void;
     public var data:Dynamic=null;
+    public var marks:tools.MarkerMap<Types.LevelMark>;
     public var done:Bool=false; 
-    public function new(_name:String,_state:String,_success:()->Bool,?_cb:()->Void,_data:Dynamic=null){
+    public function new(_name:String,_state:String,_success:()->Bool,?_cb:()->Void,_data:Dynamic=null,_marks:tools.MarkerMap<Types.LevelMark>=null){
             name=_name;
             state=_state;
             success=_success;
             cb=_cb;
             data=_data;
+            marks=_marks;
             done=false;
     }
 }

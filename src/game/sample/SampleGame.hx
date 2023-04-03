@@ -37,7 +37,7 @@ class SampleGame extends Game {
 		if (manager != null)
 			manager.stopAll();
 		super();
-		
+
 		// camera.zoomTo(3);
 		/*var httpResponse=sys.Http.requestUrl("https://alterpixel.fr/").toString();
 			trace(httpResponse); */
@@ -245,7 +245,7 @@ class SampleGame extends Game {
 		// add breakables
 		for (rock in level.data.l_Entities.all_Breakable) {
 			new sample.Breakable(rock);
-			level.breakables.set(Breaks,rock.cx,rock.cy);
+			level.breakables.set(Breaks, rock.cx, rock.cy);
 			// forgroundLayer.addChild(tut.spr);
 		}
 
@@ -294,10 +294,11 @@ class SampleGame extends Game {
 				level.marks.set(None, cx, cy);
 			}
 		}
-		if (gameStats.has(level.data.identifier + "_visited") && gameStats.has("fogMarks_" + level.data.identifier)) {
-			level.marks = gameStats.get("fogMarks_" + level.data.identifier).data;
-			trace('saved marks' + gameStats.get("fogMarks_" + level.data.identifier).data);
-		}
+		/*if (gameStats.has(level.data.identifier + "_visited")) {
+			if (gameStats.get(level.data.identifier + "_visited").marks != null) {
+				level.marks = gameStats.get(level.data.identifier + "_visited").marks;
+			}
+		}*/
 
 		/*scroller.add(warFobj);*/
 
@@ -340,10 +341,10 @@ class SampleGame extends Game {
 			manager = hxd.snd.Manager.get();
 			manager.masterVolume = 0.25;
 			manager.masterChannelGroup.addEffect(new hxd.snd.effect.Pitch(1.0));
-			var spa=new hxd.snd.effect.Spatialization();
-			spa.fadeDistance=10;
-			spa.position=new h3d.Vector(-1,0,2,1);
-			spa.direction=new h3d.Vector(0.5,0.5,2);
+			var spa = new hxd.snd.effect.Spatialization();
+			spa.fadeDistance = 10;
+			spa.position = new h3d.Vector(-1, 0, 2, 1);
+			spa.direction = new h3d.Vector(0.5, 0.5, 2);
 			manager.masterChannelGroup.addEffect(spa);
 			manager.masterSoundGroup.maxAudible = 4;
 
@@ -363,9 +364,9 @@ class SampleGame extends Game {
 
 		if (level.visited == false && !gameStats.has(level.data.identifier + "_visited")) {
 			gameStats.registerState(new Achievement(level.data.identifier + "_visited", "done", () -> level.visited == false,
-				() -> trace("visited " + level.data.identifier)));
+				() -> trace("visited " + level.data.identifier)));//,null,level.marks
 			level.visited = true;
-		}
+		} 
 		level.visited = gameStats.has(level.data.identifier + "_visited");
 		if (firstRun == true && !gameStats.has("firstRun")) {
 			firstRun = false;

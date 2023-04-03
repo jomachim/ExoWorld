@@ -16,7 +16,7 @@ class Fx extends GameProcess {
 
 	public function new() {
 		super();
-		pool = new ParticlePool(Assets.tiles.tile, 4096, Const.FPS);
+		pool = new ParticlePool(Assets.tiles.tile, 2048, Const.FPS);
 
 		bg_add = new h2d.SpriteBatch(Assets.tiles.tile);
 		game.scroller.add(bg_add, Const.DP_FX_BG); // Const.DP_BG

@@ -4,7 +4,7 @@ class Modal extends ui.Window {
 	public static var ALL : Array<Modal> = [];
 	static var COUNT = 0;
 
-	var ca : ControllerAccess<GameAction>;
+	public var ca : ControllerAccess<GameAction>;
 	var mask : h2d.Bitmap;
 	var modalIdx : Int;
 

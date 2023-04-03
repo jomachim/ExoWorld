@@ -159,12 +159,12 @@ class RigidBody extends Entity {
 			dy = 0;
 			yr = 1;
 		}
-		if (level.hasCollision(cx + 1, cy) && xr > 0.8) {
-			xr = 0.7;
+		if (level.hasCollision(cx + 1, cy) && xr >= 0.9) {
+			xr = 0.9;
 			dx = 0;
 		}
-		if (level.hasCollision(cx - 1, cy) && xr < 0.2) {
-			xr = 0.3;
+		if (level.hasCollision(cx - 1, cy) && xr <= 0.1) {
+			xr = 0.1;
 			dx = 0;
 		}
 	}
